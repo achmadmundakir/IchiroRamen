@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu Kami - {{ info.name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-color: #e74c3c; --secondary-color: #2c3e50; --background-color: #fdf6e3; --font-heading: 'Playfair Display', serif; --font-body: 'Poppins', sans-serif; }
+        body { font-family: var(--font-body); background-color: var(--background-color); color: #333; }
+        .navbar { background-color: var(--secondary-color) !important; }
+        .navbar-brand { font-family: var(--font-heading); font-weight: 700; color: #fff !important; }
+        .nav-link { color: #fff !important; font-weight: 500; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-color) !important; }
+        .section { padding: 40px 20px; }
+        .page-header { padding-top: 120px; padding-bottom: 60px; background-color: #fff; }
+        .section-title { font-family: var(--font-heading); color: var(--secondary-color); position: relative; padding-bottom: 15px; margin-bottom: 40px; }
+        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: var(--primary-color); }
+        .card { border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); }
+        .card-img-top { border-top-left-radius: 15px; border-top-right-radius: 15px; height: 250px; object-fit: cover; }
+        .promo-card { border: 2px solid var(--primary-color); position: relative; overflow: hidden; }
+        .promo-badge { position: absolute; top: 15px; right: -40px; background-color: var(--primary-color); color: white; padding: 5px 40px; transform: rotate(45deg); font-weight: bold; font-size: 0.9rem; }
+        .back-button { position: fixed; top: 90px; left: 20px; z-index: 1000; background-color: rgba(44, 62, 80, 0.8); color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; text-decoration: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: background-color 0.3s, transform 0.3s; }
+        .back-button:hover { background-color: var(--primary-color); color: #fff; transform: scale(1.1); }
+        footer { background-color: var(--secondary-color); color: #bdc3c7; padding: 60px 20px 30px 20px; margin-top: 60px; }
+        footer h5 { color: #fff; font-family: var(--font-heading); margin-bottom: 1rem; }
+        footer p { margin-bottom: 0.5rem; }
+        footer a { color: #bdc3c7; text-decoration: none; }
+        footer a:hover { color: var(--primary-color); }
+        .social-icons a { font-size: 1.5rem; margin: 0 10px; }
+    </style>
+</head>
+<body>
+
+<a href="/" class="back-button" title="Kembali ke Beranda" data-aos="fade-right"><i class="bi bi-arrow-left"></i></a>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
+    <div class="container">
+        <a class="navbar-brand" href="/">{{ info.name }}</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="/tentang">Tentang</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/menu">Menu</a></li>
+                <li class="nav-item"><a class="nav-link" href="/kontak">Kontak</a></li>
+                <li class="nav-item"><a class="nav-link" href="/tambah"><i class="bi bi-plus-lg me-1"></i>Tambah</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Header Halaman -->
+<section class="page-header text-center">
+    <div class="container">
+        <h1 class="display-4 section-title" data-aos="fade-up"><i class="bi bi-book-half"></i> Menu Kami</h1>
+    </div>
+</section>
+
+<!-- Konten Menu Reguler -->
+<section class="section pt-0" id="menu">
+  <div class="container">
+    <h3 class="mb-4" data-aos="fade-up">Menu</h3>
+    <div class="row gy-4">
+      {% for item in menu %}
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+        <div class="card h-100">
+          <img src="{{ url_for('static', filename=item.img) }}" class="card-img-top" alt="{{ item.name }}">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title" style="color: var(--secondary-color);">{{ item.name }}</h5>
+            <p class="card-text flex-grow-1">{{ item.desc }}</p>
+            <p class="card-text fs-5 fw-bold" style="color: var(--primary-color);">{{ item.price }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Konten Menu Promo -->
+<section class="section bg-white" id="menu-promo">
+    <div class="container">
+        <div class="text-center">
+             <h2 class="section-title" data-aos="fade-up"><i class="bi bi-tags-fill"></i> Promo & Diskon Spesial</h2>
+        </div>
+        <div class="row gy-4">
+            {% for promo in promos %}
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="card h-100 promo-card">
+                    <div class="promo-badge">PROMO</div>
+                    <img src="{{ url_for('static', filename=promo.img) }}" class="card-img-top" alt="{{ promo.name }}">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title" style="color: var(--secondary-color);">{{ promo.name }}</h5>
+                        <p class="card-text flex-grow-1">{{ promo.desc }}</p>
+                        <div>
+                            <span class="text-muted text-decoration-line-through">{{ promo.price_original }}</span>
+                            <span class="fs-4 fw-bold ms-2" style="color: var(--primary-color);">{{ promo.price_promo }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer id="footer-kontak">
+  <div class="container">
+    <div class="row text-md-start text-center gy-4">
+      <div class="col-lg-6 col-md-12">
+        <h5>{{ info.name }}</h5>
+        <p>"Menghadirkan semangkuk kebahagiaan di setiap sajian ramen."</p>
+        <div class="social-icons mt-3">
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="Tiktok"><i class="bi bi-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <h5>Lokasi</h5>
+        <p><i class="bi bi-geo-alt-fill me-2"></i>{{ info.location }}</p>
+      </div>
+    </div>
+    <hr class="my-4">
+    <div class="text-center">
+        <p class="mb-0">© 2024 {{ info.name }}. All Rights Reserved.</p>
+        <small>Web Dev by Mahasiswa Informatika</small>
+    </div>
+  </div>
+</footer>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ duration: 800, once: true });</script>
+
+</body>
+</html>
